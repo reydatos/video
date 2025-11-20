@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Podcast - Record Your Story</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>AI Video Podcast</h1>
+            <p class="tagline">Let AI guide your story</p>
+        </header>
+
+        <!-- Setup Screen -->
+        <div id="setupScreen" class="screen active">
+            <div class="setup-content">
+                <h2>Get Started</h2>
+                <p>Choose your video format and start recording</p>
+
+                <div class="aspect-ratio-selector">
+                    <h3>Select Video Format</h3>
+                    <div class="ratio-grid">
+                        <button class="ratio-btn" data-ratio="9:16" data-width="720" data-height="1280">
+                            <div class="ratio-visual ratio-9-16"></div>
+                            <span>9:16</span>
+                            <small>Stories</small>
+                        </button>
+                        <button class="ratio-btn active" data-ratio="16:9" data-width="1280" data-height="720">
+                            <div class="ratio-visual ratio-16-9"></div>
+                            <span>16:9</span>
+                            <small>Landscape</small>
+                        </button>
+                        <button class="ratio-btn" data-ratio="3:4" data-ratio="3:4" data-width="960" data-height="1280">
+                            <div class="ratio-visual ratio-3-4"></div>
+                            <span>3:4</span>
+                            <small>Portrait</small>
+                        </button>
+                        <button class="ratio-btn" data-ratio="1:1" data-width="1080" data-height="1080">
+                            <div class="ratio-visual ratio-1-1"></div>
+                            <span>1:1</span>
+                            <small>Square</small>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="api-key-section">
+                    <h3>Gemini API Key</h3>
+                    <input type="password" id="apiKeyInput" placeholder="Enter your Gemini API key">
+                    <small>Your API key is stored locally and never sent anywhere except Google's Gemini API</small>
+                </div>
+
+                <button id="startBtn" class="primary-btn">Start Recording Session</button>
+            </div>
+        </div>
+
+        <!-- Recording Screen -->
+        <div id="recordingScreen" class="screen">
+            <div class="recording-layout">
+                <!-- Video Preview Container -->
+                <div id="videoContainer" class="video-container">
+                    <video id="videoPreview" autoplay muted playsinline></video>
+
+                    <!-- AI Prompt Overlay -->
+                    <div id="promptOverlay" class="prompt-overlay">
+                        <div class="prompt-content">
+                            <p id="currentPrompt">Click record to start...</p>
+                        </div>
+                    </div>
+
+                    <!-- Recording Indicator -->
+                    <div id="recordingIndicator" class="recording-indicator">
+                        <span class="rec-dot"></span>
+                        <span id="recordingTime">00:00</span>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <button id="recordBtn" class="control-btn record-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                            <span>Start Recording</span>
+                        </button>
+
+                        <button id="stopBtn" class="control-btn stop-btn" disabled>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="6" y="6" width="12" height="12"></rect>
+                            </svg>
+                            <span>Stop</span>
+                        </button>
+
+                        <button id="downloadBtn" class="control-btn download-btn" disabled>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Download MP4</span>
+                        </button>
+
+                        <button id="newRecordingBtn" class="control-btn secondary-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                            <span>New Recording</span>
+                        </button>
+                    </div>
+
+                    <!-- Transcript Display -->
+                    <div class="transcript-section">
+                        <h3>Live Transcript</h3>
+                        <div id="transcriptDisplay" class="transcript-display">
+                            <p class="transcript-placeholder">Your words will appear here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
