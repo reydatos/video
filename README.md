@@ -4,7 +4,7 @@ A beautiful web application that turns video recording into an interactive conve
 
 ## Features
 
-- **AI-Powered Prompts**: Gemini AI generates thoughtful questions to guide your recording
+- **AI-Powered Prompts**: Claude AI generates thoughtful questions to guide your recording
 - **Live Interactive Questions**: AI listens to you in real-time and asks follow-up questions
 - **Multiple Aspect Ratios**: Choose from 9:16 (Stories), 16:9 (Landscape), 3:4 (Portrait), or 1:1 (Square)
 - **Real-Time Transcription**: See what you're saying live with Web Speech API
@@ -14,7 +14,7 @@ A beautiful web application that turns video recording into an interactive conve
 
 ## How It Works
 
-1. **Setup**: Enter your Gemini API key and choose your preferred video aspect ratio
+1. **Setup**: Enter your Claude API key and choose your preferred video aspect ratio
 2. **Record**: The AI presents an opening question to get you started
 3. **Interact**: As you speak, AI listens and generates relevant follow-up questions
 4. **Download**: Save your video recording when done
@@ -24,14 +24,15 @@ A beautiful web application that turns video recording into an interactive conve
 ### Prerequisites
 
 - Modern web browser (Chrome, Edge, Safari, or Firefox)
-- Gemini API key from Google
+- Claude API key from Anthropic
 
-### Getting a Gemini API Key
+### Getting a Claude API Key
 
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Sign in with your Google account
-3. Click "Create API Key"
-4. Copy your API key
+1. Visit [Anthropic Console](https://console.anthropic.com/)
+2. Sign in or create an account
+3. Navigate to "API Keys" section
+4. Click "Create Key"
+5. Copy your API key
 
 ### Running the App
 
@@ -39,7 +40,7 @@ A beautiful web application that turns video recording into an interactive conve
 
 1. Clone this repository
 2. Open `index.html` in your web browser
-3. Enter your Gemini API key
+3. Enter your Claude API key
 4. Allow camera and microphone permissions when prompted
 5. Start recording!
 
@@ -62,7 +63,7 @@ Then navigate to `http://localhost:8000` in your browser.
 
 ### 1. Initial Setup
 
-- **API Key**: Enter your Gemini API key (stored locally in your browser)
+- **API Key**: Enter your Claude API key (stored locally in your browser)
 - **Aspect Ratio**: Choose your video format:
   - 9:16 - Perfect for Instagram Stories, TikTok, Reels
   - 16:9 - Standard YouTube, landscape videos
@@ -108,12 +109,12 @@ The AI:
 - **MediaDevices API**: Camera and microphone access
 - **MediaRecorder API**: Video recording
 - **Web Speech API**: Real-time speech recognition
-- **Gemini API**: AI-powered question generation
+- **Claude API**: AI-powered question generation (Claude 3.5 Sonnet)
 
 ### Privacy & Security
 
 - API key stored locally in browser (localStorage)
-- No data sent to third parties except Google Gemini API
+- No data sent to third parties except Anthropic's Claude API
 - Recordings stay on your device
 - No server-side storage
 
@@ -140,9 +141,10 @@ Edit `styles.css` and modify the CSS variables:
 ### Adjusting AI Behavior
 
 In `app.js`, modify:
-- Question frequency: Line ~216 (`if (currentLength - lastTranscriptLength > 30)`)
-- AI temperature: Line ~153 (`temperature: 0.9`)
-- Question length: Line ~237 (`max 20 words`)
+- Question frequency: Line ~197 (`if (currentLength - lastTranscriptLength > 30)`)
+- AI temperature: Line ~146 (`temperature: 0.9`)
+- AI model: Line ~144 (`model: 'claude-3-5-sonnet-20241022'`)
+- Question length: Line ~244 (`max 20 words`)
 
 ## Troubleshooting
 
@@ -158,9 +160,9 @@ In `app.js`, modify:
 - Web Speech API works best in Chrome
 
 ### API Errors
-- Verify your Gemini API key is correct
+- Verify your Claude API key is correct
 - Check your internet connection
-- Ensure you have API quota remaining
+- Ensure you have API credits remaining (check [Anthropic Console](https://console.anthropic.com/))
 
 ### Download Issues
 - Some browsers may block automatic downloads
@@ -172,7 +174,7 @@ In `app.js`, modify:
 - Video download is in WebM format (requires conversion for MP4)
 - Speech recognition requires internet connection
 - Best experience in Chrome/Edge browsers
-- Gemini API rate limits apply
+- Claude API rate limits apply (based on your usage tier)
 
 ## Future Enhancements
 
@@ -186,7 +188,7 @@ In `app.js`, modify:
 ## Credits
 
 Built with:
-- Gemini 1.5 Flash API
+- Claude 3.5 Sonnet API (Anthropic)
 - Web Speech API
 - MediaRecorder API
 - Pure vanilla JavaScript (no frameworks)

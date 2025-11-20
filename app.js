@@ -42,7 +42,7 @@ class VideoPodcastApp {
 
     init() {
         // Load saved API key
-        const savedKey = localStorage.getItem('geminiApiKey');
+        const savedKey = localStorage.getItem('claudeApiKey');
         if (savedKey) {
             this.apiKeyInput.value = savedKey;
         }
@@ -73,12 +73,12 @@ class VideoPodcastApp {
         // Validate API key
         this.apiKey = this.apiKeyInput.value.trim();
         if (!this.apiKey) {
-            alert('Please enter your Gemini API key');
+            alert('Please enter your Claude API key');
             return;
         }
 
         // Save API key
-        localStorage.setItem('geminiApiKey', this.apiKey);
+        localStorage.setItem('claudeApiKey', this.apiKey);
 
         try {
             // Request camera access
@@ -111,7 +111,7 @@ class VideoPodcastApp {
 
     async getInitialPrompt() {
         try {
-            const prompt = await this.callGeminiAPI(
+            const prompt = await this.callClaudeAPI(
                 "Generate a creative, engaging opening question for a video podcast interview. The question should help someone introduce themselves and their story. Keep it warm, inviting, and open-ended. Return ONLY the question, nothing else."
             );
             this.currentPrompt.textContent = prompt;
@@ -123,38 +123,38 @@ class VideoPodcastApp {
         }
     }
 
-    async callGeminiAPI(prompt, includeHistory = false) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+    async callClaudeAPI(prompt, includeHistory = false) {
+        const url = 'https://api.anthropic.com/v1/messages';
 
-        const messages = includeHistory ? [
+        const messages = includeHistory && this.conversationHistory.length > 0 ? [
             ...this.conversationHistory,
-            { role: 'user', parts: [{ text: prompt }] }
+            { role: 'user', content: prompt }
         ] : [
-            { role: 'user', parts: [{ text: prompt }] }
+            { role: 'user', content: prompt }
         ];
 
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'x-api-key': this.apiKey,
+                'anthropic-version': '2023-06-01'
             },
             body: JSON.stringify({
-                contents: messages,
-                generationConfig: {
-                    temperature: 0.9,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 200,
-                }
+                model: 'claude-3-5-sonnet-20241022',
+                max_tokens: 200,
+                temperature: 0.9,
+                messages: messages
             })
         });
 
         if (!response.ok) {
-            throw new Error(`Gemini API error: ${response.status}`);
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Claude API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
         }
 
         const data = await response.json();
-        const text = data.candidates[0].content.parts[0].text.trim();
+        const text = data.content[0].text.trim();
 
         return text;
     }
@@ -243,7 +243,7 @@ Their recent words: "${transcript.slice(-500)}"
 
 Generate ONE concise, conversational follow-up question (max 20 words). Return ONLY the question, nothing else.`;
 
-                const question = await this.callGeminiAPI(contextPrompt);
+                const question = await this.callClaudeAPI(contextPrompt);
 
                 // Update the prompt overlay with smooth transition
                 this.promptOverlay.classList.remove('visible');
@@ -255,11 +255,11 @@ Generate ONE concise, conversational follow-up question (max 20 words). Return O
                 // Store in conversation history
                 this.conversationHistory.push({
                     role: 'user',
-                    parts: [{ text: `User said: ${transcript.slice(-200)}` }]
+                    content: `User said: ${transcript.slice(-200)}`
                 });
                 this.conversationHistory.push({
-                    role: 'model',
-                    parts: [{ text: `Question: ${question}` }]
+                    role: 'assistant',
+                    content: `Question: ${question}`
                 });
 
                 // Keep history manageable
