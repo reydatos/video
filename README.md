@@ -4,17 +4,18 @@ A beautiful web application that turns video recording into an interactive conve
 
 ## Features
 
-- **AI-Powered Prompts**: Claude AI generates thoughtful questions to guide your recording
+- **AI-Powered Prompts**: AI generates thoughtful questions to guide your recording (using free models!)
 - **Live Interactive Questions**: AI listens to you in real-time and asks follow-up questions
 - **Multiple Aspect Ratios**: Choose from 9:16 (Stories), 16:9 (Landscape), 3:4 (Portrait), or 1:1 (Square)
 - **Real-Time Transcription**: See what you're saying live with Web Speech API
 - **Video Download**: Save your recordings as video files
 - **Pastel Design**: Beautiful, classy UI with calming pastel colors
 - **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile
+- **Free AI Models**: Uses OpenRouter's free tier (no cost for AI generation!)
 
 ## How It Works
 
-1. **Setup**: Enter your Claude API key and choose your preferred video aspect ratio
+1. **Setup**: Enter your OpenRouter API key and choose your preferred video aspect ratio
 2. **Record**: The AI presents an opening question to get you started
 3. **Interact**: As you speak, AI listens and generates relevant follow-up questions
 4. **Download**: Save your video recording when done
@@ -24,15 +25,16 @@ A beautiful web application that turns video recording into an interactive conve
 ### Prerequisites
 
 - Modern web browser (Chrome, Edge, Safari, or Firefox)
-- Claude API key from Anthropic
+- OpenRouter API key (free tier available!)
 
-### Getting a Claude API Key
+### Getting a Free OpenRouter API Key
 
-1. Visit [Anthropic Console](https://console.anthropic.com/)
-2. Sign in or create an account
-3. Navigate to "API Keys" section
+1. Visit [OpenRouter](https://openrouter.ai/)
+2. Sign in or create an account (sign up with Google, GitHub, or email)
+3. Navigate to "Keys" in your dashboard
 4. Click "Create Key"
 5. Copy your API key
+6. **Optional**: Add $10 credits to increase free tier limits from 50 to 1000 requests/day
 
 ### Running the App
 
@@ -40,7 +42,7 @@ A beautiful web application that turns video recording into an interactive conve
 
 1. Clone this repository
 2. Open `index.html` in your web browser
-3. Enter your Claude API key
+3. Enter your OpenRouter API key
 4. Allow camera and microphone permissions when prompted
 5. Start recording!
 
@@ -63,7 +65,7 @@ Then navigate to `http://localhost:8000` in your browser.
 
 ### 1. Initial Setup
 
-- **API Key**: Enter your Claude API key (stored locally in your browser)
+- **API Key**: Enter your OpenRouter API key (stored locally in your browser)
 - **Aspect Ratio**: Choose your video format:
   - 9:16 - Perfect for Instagram Stories, TikTok, Reels
   - 16:9 - Standard YouTube, landscape videos
@@ -109,14 +111,15 @@ The AI:
 - **MediaDevices API**: Camera and microphone access
 - **MediaRecorder API**: Video recording
 - **Web Speech API**: Real-time speech recognition
-- **Claude API**: AI-powered question generation (Claude 3.5 Sonnet)
+- **OpenRouter API**: AI-powered question generation (uses Google Gemini 2.0 Flash free tier)
 
 ### Privacy & Security
 
 - API key stored locally in browser (localStorage)
-- No data sent to third parties except Anthropic's Claude API
+- No data sent to third parties except OpenRouter for AI generation
 - Recordings stay on your device
 - No server-side storage
+- Uses free AI models from OpenRouter
 
 ### Video Format
 
@@ -142,8 +145,9 @@ Edit `styles.css` and modify the CSS variables:
 
 In `app.js`, modify:
 - Question frequency: Line ~197 (`if (currentLength - lastTranscriptLength > 30)`)
-- AI temperature: Line ~146 (`temperature: 0.9`)
-- AI model: Line ~144 (`model: 'claude-3-5-sonnet-20241022'`)
+- AI temperature: Line ~147 (`temperature: 0.9`)
+- AI model: Line ~145 (`model: 'google/gemini-2.0-flash-exp:free'`)
+- Other free models: `deepseek/deepseek-r1:free`, `google/gemini-2.5-flash-image-preview:free`
 - Question length: Line ~244 (`max 20 words`)
 
 ## Troubleshooting
@@ -160,9 +164,10 @@ In `app.js`, modify:
 - Web Speech API works best in Chrome
 
 ### API Errors
-- Verify your Claude API key is correct
+- Verify your OpenRouter API key is correct
 - Check your internet connection
-- Ensure you have API credits remaining (check [Anthropic Console](https://console.anthropic.com/))
+- Free tier limits: 20 requests/minute, 50-1000 requests/day (depending on credits)
+- Check your usage at [OpenRouter Dashboard](https://openrouter.ai/)
 
 ### Download Issues
 - Some browsers may block automatic downloads
@@ -174,7 +179,8 @@ In `app.js`, modify:
 - Video download is in WebM format (requires conversion for MP4)
 - Speech recognition requires internet connection
 - Best experience in Chrome/Edge browsers
-- Claude API rate limits apply (based on your usage tier)
+- Free tier rate limits: 50 requests/day (or 1000/day with $10+ credits)
+- 20 requests per minute maximum
 
 ## Future Enhancements
 
@@ -188,7 +194,7 @@ In `app.js`, modify:
 ## Credits
 
 Built with:
-- Claude 3.5 Sonnet API (Anthropic)
+- OpenRouter API (Google Gemini 2.0 Flash - free tier)
 - Web Speech API
 - MediaRecorder API
 - Pure vanilla JavaScript (no frameworks)

@@ -42,7 +42,7 @@ class VideoPodcastApp {
 
     init() {
         // Load saved API key
-        const savedKey = localStorage.getItem('claudeApiKey');
+        const savedKey = localStorage.getItem('openrouterApiKey');
         if (savedKey) {
             this.apiKeyInput.value = savedKey;
         }
@@ -73,12 +73,12 @@ class VideoPodcastApp {
         // Validate API key
         this.apiKey = this.apiKeyInput.value.trim();
         if (!this.apiKey) {
-            alert('Please enter your Claude API key');
+            alert('Please enter your OpenRouter API key');
             return;
         }
 
         // Save API key
-        localStorage.setItem('claudeApiKey', this.apiKey);
+        localStorage.setItem('openrouterApiKey', this.apiKey);
 
         try {
             // Request camera access
@@ -124,7 +124,7 @@ class VideoPodcastApp {
     }
 
     async callClaudeAPI(prompt, includeHistory = false) {
-        const url = 'https://api.anthropic.com/v1/messages';
+        const url = 'https://openrouter.ai/api/v1/chat/completions';
 
         const messages = includeHistory && this.conversationHistory.length > 0 ? [
             ...this.conversationHistory,
@@ -137,11 +137,12 @@ class VideoPodcastApp {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': this.apiKey,
-                'anthropic-version': '2023-06-01'
+                'Authorization': `Bearer ${this.apiKey}`,
+                'HTTP-Referer': window.location.origin,
+                'X-Title': 'AI Video Podcast App'
             },
             body: JSON.stringify({
-                model: 'claude-3-5-sonnet-20241022',
+                model: 'google/gemini-2.0-flash-exp:free',
                 max_tokens: 200,
                 temperature: 0.9,
                 messages: messages
@@ -150,11 +151,11 @@ class VideoPodcastApp {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Claude API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+            throw new Error(`OpenRouter API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
         }
 
         const data = await response.json();
-        const text = data.content[0].text.trim();
+        const text = data.choices[0].message.content.trim();
 
         return text;
     }
